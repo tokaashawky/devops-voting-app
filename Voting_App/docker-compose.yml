@@ -1,7 +1,7 @@
 services:
   vote:
     build: ./vote
-    container_name: vote-app
+    container_name: vote
     ports:
       - "8080:8080"
     depends_on:
@@ -68,6 +68,15 @@ services:
     volumes:
       - ./healthchecks:/healthchecks:ro
       - db-data:/var/lib/postgresql/data
+
+  seed:
+    build: ./seed-data
+    container_name: seed-app
+    networks:
+      - backend
+    depends_on:
+      - vote
+    profiles: ["seed"]
 
 networks:
   frontend:
